@@ -1,109 +1,70 @@
-# React + Vite
+# Getting Started with Create React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Currently, two official plugins are available:
+## Available Scripts
 
+In the project directory, you can run:
 
-Consistify – DSA Practice Tracker
+### `npm start`
 
-## Project Overview
-Consistify is a personal DSA consistency coach designed to help developers stick to their practice schedule through goal-setting, repetition reminders, and motivational nudges—all in a distraction-free environment. It introduces fresh motivators and unique naming conventions, making practice fun and memorable without copying streak-based systems.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Phase 1 Features
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-### 1. Consistency Paths (Goal Setting)
-Create a Consistency Path with:
-- Customizable name (e.g., “7-Day Kickstart”, “DSA Reboot”)
-- Duration (number of days)
-- Daily Target (e.g., 2 problems/day)
-- Repetition Cycle (e.g., repeat every 2 days)
+### `npm test`
 
-### 2. Checkpoints (Problem Logging)
-Manually enter problems:
-- Problem Title
-- Source (LeetCode/GFG/custom link)
-- Tags (Arrays, DP, Graphs, etc.)
-- Personal Notes
-- Write & test code in a lightweight Java code editor
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### 3. Memory Echo (Repetition Reminders)
-- Smart scheduler for repetition reminders
-- In-app notifications when it’s time to repeat problems
-- Problems reappear in a “Review Board”
+### `npm run build`
 
-### 4. Progress Dashboard
-- Consistency Meter: Bar fills as daily targets are met
-- Momentum Rings: Circular progress for each Consistency Path
-- Echo Score: Points for successfully repeated problems
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### 5. Motivation Boost
-- Celebration animations (fireworks/confetti on goal completion)
-- Badges with unique names:
-  - Pathfinder (first Consistency Path completed)
-  - Echo Master (repeated problems for 3 cycles)
-  - Unstoppable (daily target met for X days straight)
-- Daily Dopamine Nudges: Fun, positive quotes after solving
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### 6. Extra Features
-- Notes section for each checkpoint
-- Tag-based tracking (problems solved per topic)
-- Daily recap popup (problems solved, due for repetition, progress meter)
-- Custom reminder time setting
-- Motivation quotes bank (rotating daily one-liners)
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Phase 1 Task List
+### `npm run eject`
 
-### Initial Setup
-**Frontend (React)**
-- Set up React project (Vite or Create React App)
-- Configure folder structure (components, pages, services, assets)
-- Install UI library (Material-UI or Chakra UI)
-- Set up routing (React Router)
-- Set up API service layer (Axios)
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-**Backend (Java + PostgreSQL)**
-- Set up Java backend project (Spring Boot recommended)
-- Configure PostgreSQL database connection
-- Set up basic project structure (controllers, services, repositories, entities)
-- Implement CORS and REST API configuration
-- Create initial database schema
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### Feature Development
-1. Consistency Path (Goal Creation)
-	- Frontend: Build form, validate, connect to backend, display active paths
-	- Backend: Entity/model, create/fetch endpoints, validation
-2. Checkpoints (Problem Logging)
-	- Frontend: Add form, display checkpoints, code editor
-	- Backend: Entity/model, add/fetch endpoints, store code/notes/tags
-3. Memory Echo (Repetition Reminders)
-	- Frontend: Display reminders, notifications, mark repeated
-	- Backend: Scheduler logic, fetch due checkpoints, track cycles/score
-4. Progress Dashboard & Motivation
-	- Frontend: Dashboard UI, badges, animations, quotes
-	- Backend: Progress stats endpoints, badge logic, serve quotes
-5. Extra Features
-	- Frontend: Notes, tag tracking, daily recap, custom reminders
-	- Backend: Store/fetch notes/tags, daily recap API, reminder time
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-### General Tasks
-- Error handling and loading states
-- Unit and integration tests
-- Deployment scripts
-- API and frontend documentation
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Unique Naming Summary
-- Goals: Consistency Paths
-- Problems: Checkpoints
-- Repetition System: Memory Echo
-- Progress Bar: Consistency Meter
-- Circular Progress: Momentum Rings
-- Repetition Points: Echo Score
-- Badges: Pathfinder, Echo Master, Unstoppable
+## Learn More
 
----
-This file summarizes all features and tasks for Phase 1 development. Update as you progress!
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## Expanding the ESLint configuration
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

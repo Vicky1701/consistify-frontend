@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, // Backend URL from .env
-});
+const BASE_URL = 'http://localhost:8080/api';
 
-export default api;
+export const createConsistencyPath = (data) => axios.post(`${BASE_URL}/paths`, data);
+export const getConsistencyPaths = () => axios.get(`${BASE_URL}/paths`);
+export const addCheckpoint = (pathId, data) => axios.post(`${BASE_URL}/paths/${pathId}/checkpoints`, data);
+export const getCheckpoints = (pathId) => axios.get(`${BASE_URL}/paths/${pathId}/checkpoints`);
