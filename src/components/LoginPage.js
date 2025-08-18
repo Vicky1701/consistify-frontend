@@ -104,7 +104,7 @@ const LoginPage = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
+  background: 'linear-gradient(135deg, #222 0%, #333 100%)',
       fontFamily: 'Roboto, Segoe UI, Arial, sans-serif',
     }}>
       <Card sx={{
@@ -117,9 +117,9 @@ const LoginPage = () => {
       }}>
         <CardContent>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
-            <CheckCircle sx={{ fontSize: 56, color: '#4ade80', mb: 1 }} />
-            <Typography variant="h4" fontWeight={800} color="#222" gutterBottom>Consistify</Typography>
-            <Typography variant="subtitle1" color="#444">Welcome back! Please sign in to continue.</Typography>
+            <CheckCircle sx={{ fontSize: 56, color: '#333', mb: 1 }} />
+            <Typography variant="h4" fontWeight={800} color="#333" gutterBottom>Consistify</Typography>
+            <Typography variant="subtitle1" color="#888">Welcome back! Please sign in to continue.</Typography>
           </Box>
           {/* Login, Signup, or Forgot Password Form */}
           {!showForgot && !showSignup ? (
@@ -135,7 +135,7 @@ const LoginPage = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Email sx={{ color: '#3b82f6' }} />
+                      <Email sx={{ color: '#333' }} />
                     </InputAdornment>
                   ),
                 }}
@@ -152,7 +152,7 @@ const LoginPage = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Lock sx={{ color: '#3b82f6' }} />
+                      <Lock sx={{ color: '#333' }} />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -169,7 +169,7 @@ const LoginPage = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ mt: 2, py: 1.5, fontWeight: 700, fontSize: 18, borderRadius: 2, background: 'linear-gradient(90deg, #2563eb 0%, #3b82f6 100%)' }}
+                sx={{ mt: 2, py: 1.5, fontWeight: 700, fontSize: 18, borderRadius: 2, background: 'linear-gradient(90deg, #222 0%, #333 100%)' }}
                 disabled={isLoading}
               >
                 {isLoading ? 'Signing In...' : 'Sign In'}
@@ -177,10 +177,10 @@ const LoginPage = () => {
               {error && <Typography color="error" sx={{ mt: 2 }}>{error}</Typography>}
               {success && <Typography sx={{ mt: 2, color: '#22c55e' }}>{success}</Typography>}
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
-                <Button variant="text" sx={{ color: '#60a5fa', textTransform: 'none' }} onClick={() => setShowForgot(true)}>
+                <Button variant="text" sx={{ color: '#333', textTransform: 'none' }} onClick={() => setShowForgot(true)}>
                   Forgot your password?
                 </Button>
-                <Button variant="text" sx={{ color: '#60a5fa', textTransform: 'none' }} onClick={() => setShowSignup(true)}>
+                <Button variant="text" sx={{ color: '#333', textTransform: 'none' }} onClick={() => setShowSignup(true)}>
                   Sign up
                 </Button>
               </Box>
@@ -216,11 +216,11 @@ const LoginPage = () => {
                 onChange={e => setSignupPassword(e.target.value)}
                 required
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, py: 1.5, fontWeight: 700, fontSize: 18, borderRadius: 2, background: 'linear-gradient(90deg, #2563eb 0%, #3b82f6 100%)' }}>
+              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, py: 1.5, fontWeight: 700, fontSize: 18, borderRadius: 2, background: 'linear-gradient(90deg, #222 0%, #333 100%)' }}>
                 Sign Up
               </Button>
               {signupMessage && <Typography color="success.main" sx={{ mt: 2 }}>{signupMessage}</Typography>}
-              <Button variant="text" sx={{ color: '#60a5fa', textTransform: 'none', mt: 2 }} onClick={() => setShowSignup(false)}>
+              <Button variant="text" sx={{ color: '#333', textTransform: 'none', mt: 2 }} onClick={() => setShowSignup(false)}>
                 Back to Login
               </Button>
             </form>
@@ -246,11 +246,11 @@ const LoginPage = () => {
                 onChange={e => setFpNewPassword(e.target.value)}
                 required
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, py: 1.5, fontWeight: 700, fontSize: 18, borderRadius: 2, background: 'linear-gradient(90deg, #2563eb 0%, #3b82f6 100%)' }}>
+              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, py: 1.5, fontWeight: 700, fontSize: 18, borderRadius: 2, background: 'linear-gradient(90deg, #222 0%, #333 100%)' }}>
                 Reset Password
               </Button>
               {fpMessage && <Typography color="success.main" sx={{ mt: 2 }}>{fpMessage}</Typography>}
-              <Button variant="text" sx={{ color: '#60a5fa', textTransform: 'none', mt: 2 }} onClick={() => setShowForgot(false)}>
+              <Button variant="text" sx={{ color: '#333', textTransform: 'none', mt: 2 }} onClick={() => setShowForgot(false)}>
                 Back to Login
               </Button>
             </form>

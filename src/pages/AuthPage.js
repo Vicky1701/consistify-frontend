@@ -99,7 +99,7 @@ const AuthPage = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)' }}>
+  <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #222 0%, #333 100%)' }}>
       <Card sx={{ maxWidth: 420, width: '100%', borderRadius: 4, boxShadow: 8, background: 'rgba(255,255,255,0.98)', p: 4 }}>
         <CardContent>
           {!showForgot && !showSignup ? (
