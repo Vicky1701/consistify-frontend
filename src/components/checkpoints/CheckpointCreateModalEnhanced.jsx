@@ -23,7 +23,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
   Stepper,
   Step,
   StepLabel,
@@ -44,17 +43,22 @@ import {
   ArrowForward,
   Assignment,
 } from "@mui/icons-material";
-// Temporarily remove Monaco Editor to fix React hooks issue
-// import Editor from "@monaco-editor/react";
 import { createCheckpoint, getConsistencyPaths } from "../../services/api";
 import {
   DIFFICULTY_LEVELS,
   SOURCE_PLATFORMS,
   PROBLEM_STATUS,
-  DEFAULT_CHECKPOINT,
   PROGRAMMING_LANGUAGES,
   CODE_TEMPLATES,
+  DEFAULT_CHECKPOINT,
 } from "../../types/checkpoint";
+import CodeEditor from "../shared/CodeEditor";
+import {
+  COLORS,
+  SHADOWS,
+  BORDER_RADIUS,
+  DIFFICULTY_COLORS,
+} from "../../styles/designSystem";
 
 const CheckpointCreateModalEnhanced = ({
   open,
@@ -455,7 +459,21 @@ const CheckpointCreateModalEnhanced = ({
           >
             {Object.values(DIFFICULTY_LEVELS).map((level) => (
               <MenuItem key={level} value={level}>
-                {level}
+                <Chip
+                  label={level}
+                  size="small"
+                  sx={{
+                    backgroundColor:
+                      DIFFICULTY_COLORS[level]?.background ||
+                      COLORS.secondary[100],
+                    color:
+                      DIFFICULTY_COLORS[level]?.color || COLORS.secondary[700],
+                    border: `1px solid ${
+                      DIFFICULTY_COLORS[level]?.border || COLORS.secondary[300]
+                    }`,
+                    fontWeight: 500,
+                  }}
+                />
               </MenuItem>
             ))}
           </Select>
@@ -563,67 +581,163 @@ const CheckpointCreateModalEnhanced = ({
     <Box>
       {/* Existing Solutions */}
       {formData.codeSolutions.length > 0 && (
-        <Card sx={{ mb: 3 }}>
+        <Card
+          sx={{
+            mb: 3,
+            border: `1px solid ${COLORS.secondary[200]}`,
+            borderRadius: BORDER_RADIUS.xl,
+            boxShadow: SHADOWS.card,
+          }}
+        >
           <CardHeader
-            title={`Saved Solutions (${formData.codeSolutions.length})`}
-            subheader="Your previously saved code solutions"
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <List>
-              {formData.codeSolutions.map((solution, index) => (
-                <ListItem
-                  key={solution.id}
-                  divider={index < formData.codeSolutions.length - 1}
+            title={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Code sx={{ color: COLORS.primary[600] }} />
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: 600, color: COLORS.primary[700] }}
                 >
-                  <ListItemText
-                    primary={
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  Saved Solutions ({formData.codeSolutions.length})
+                </Typography>
+              </Box>
+            }
+            subheader="Your previously saved code solutions"
+            sx={{
+              background: COLORS.gradient.card,
+              borderBottom: `1px solid ${COLORS.secondary[200]}`,
+            }}
+          />
+          <CardContent sx={{ pt: 2 }}>
+            {formData.codeSolutions.map((solution, index) => (
+              <Card
+                key={solution.id}
+                sx={{
+                  mb: index === formData.codeSolutions.length - 1 ? 0 : 2,
+                  border: `1px solid ${COLORS.secondary[200]}`,
+                  borderRadius: BORDER_RADIUS.lg,
+                  "&:hover": {
+                    borderColor: COLORS.primary[300],
+                    boxShadow: SHADOWS.sm,
+                  },
+                }}
+              >
+                <CardContent sx={{ pb: "16px !important" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <Avatar
+                        sx={{
+                          bgcolor: COLORS.primary[100],
+                          color: COLORS.primary[700],
+                          width: 32,
+                          height: 32,
+                          fontSize: "0.875rem",
+                          fontWeight: 600,
+                        }}
                       >
-                        <Chip
-                          label={solution.language}
-                          size="small"
-                          color="primary"
-                          variant="outlined"
-                        />
-                        <Typography variant="subtitle1">
+                        {solution.language?.charAt(0) || "C"}
+                      </Avatar>
+                      <Box>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontWeight: 600, mb: 0.5 }}
+                        >
                           {solution.title}
                         </Typography>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          <Chip
+                            label={solution.language}
+                            size="small"
+                            sx={{
+                              backgroundColor: COLORS.primary[100],
+                              color: COLORS.primary[700],
+                              fontWeight: 500,
+                            }}
+                          />
+                          {solution.timeComplexity && (
+                            <Chip
+                              label={`Time: ${solution.timeComplexity}`}
+                              size="small"
+                              variant="outlined"
+                              sx={{
+                                borderColor: COLORS.success[300],
+                                color: COLORS.success[700],
+                              }}
+                            />
+                          )}
+                          {solution.spaceComplexity && (
+                            <Chip
+                              label={`Space: ${solution.spaceComplexity}`}
+                              size="small"
+                              variant="outlined"
+                              sx={{
+                                borderColor: COLORS.warning[300],
+                                color: COLORS.warning[700],
+                              }}
+                            />
+                          )}
+                        </Box>
                       </Box>
-                    }
-                    secondary={
-                      <Box sx={{ mt: 1 }}>
-                        {solution.timeComplexity && (
-                          <Typography variant="caption" sx={{ mr: 2 }}>
-                            Time: {solution.timeComplexity}
-                          </Typography>
-                        )}
-                        {solution.spaceComplexity && (
-                          <Typography variant="caption">
-                            Space: {solution.spaceComplexity}
-                          </Typography>
-                        )}
-                      </Box>
-                    }
-                  />
-                  <ListItemSecondaryAction>
-                    <Tooltip title="Edit Solution">
-                      <IconButton onClick={() => handleEditSolution(index)}>
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Solution">
-                      <IconButton
-                        onClick={() => handleDeleteSolution(index)}
-                        color="error"
-                      >
-                        <Delete />
-                      </IconButton>
-                    </Tooltip>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
+                    </Box>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Tooltip title="Edit Solution">
+                        <IconButton
+                          size="small"
+                          onClick={() => handleEditSolution(index)}
+                          sx={{
+                            color: COLORS.primary[600],
+                            "&:hover": {
+                              backgroundColor: COLORS.primary[100],
+                            },
+                          }}
+                        >
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete Solution">
+                        <IconButton
+                          size="small"
+                          onClick={() => handleDeleteSolution(index)}
+                          sx={{
+                            color: COLORS.error[600],
+                            "&:hover": {
+                              backgroundColor: COLORS.error[100],
+                            },
+                          }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                  {solution.approach && (
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        mt: 1,
+                        fontStyle: "italic",
+                        borderLeft: `3px solid ${COLORS.primary[200]}`,
+                        pl: 2,
+                        backgroundColor: COLORS.primary[50],
+                        py: 1,
+                        borderRadius: BORDER_RADIUS.sm,
+                      }}
+                    >
+                      💡 {solution.approach}
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
           </CardContent>
         </Card>
       )}
@@ -717,28 +831,26 @@ const CheckpointCreateModalEnhanced = ({
           </Grid>
 
           {/* Code Editor */}
-          <Typography variant="subtitle2" gutterBottom>
-            Code Editor
+          <Typography
+            variant="subtitle2"
+            gutterBottom
+            sx={{ mt: 2, color: COLORS.primary[700], fontWeight: 600 }}
+          >
+            💻 Code Editor
           </Typography>
-          <TextField
-            fullWidth
-            multiline
-            rows={15}
+          <CodeEditor
             value={currentSolution.code}
-            onChange={(e) => handleSolutionChange("code", e.target.value)}
-            placeholder={`Enter your ${currentSolution.language} code here...`}
-            variant="outlined"
-            sx={{
-              fontFamily: "monospace",
-              "& .MuiInputBase-input": {
-                fontFamily: "Monaco, Menlo, 'Ubuntu Mono', monospace",
-                fontSize: "14px",
-                lineHeight: 1.5,
-              },
-            }}
+            onChange={(value) => handleSolutionChange("code", value)}
+            language={currentSolution.language?.toLowerCase()}
+            placeholder={`Enter your ${currentSolution.language} solution here...`}
+            minHeight="350px"
+            maxHeight="500px"
+            showHeader={true}
+            title={`${currentSolution.language} Solution - ${
+              currentSolution.title || "Untitled"
+            }`}
           />
-
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
             <Button
               variant="contained"
               onClick={handleSaveSolution}
@@ -891,13 +1003,18 @@ const CheckpointCreateModalEnhanced = ({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          pb: 2,
+          pb: 1,
+          background: COLORS.gradient.primary,
+          color: "white",
         }}
       >
-        <Typography variant="h5" fontWeight="bold">
-          Create New Checkpoint
-        </Typography>
-        <IconButton onClick={handleClose} size="small">
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Assignment sx={{ fontSize: 28 }} />
+          <Typography variant="h5" fontWeight="bold">
+            Create New Checkpoint
+          </Typography>
+        </Box>
+        <IconButton onClick={handleClose} size="small" sx={{ color: "white" }}>
           <Close />
         </IconButton>
       </DialogTitle>
@@ -910,50 +1027,108 @@ const CheckpointCreateModalEnhanced = ({
         )}
 
         {/* Stepper */}
-        <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
-          {steps.map((step, index) => (
-            <Step
-              key={step.label}
-              completed={completed[index]}
-              sx={{ cursor: "pointer" }}
-              onClick={() => handleStepClick(index)}
-            >
-              <StepLabel
-                optional={
-                  step.optional && (
-                    <Typography variant="caption">Optional</Typography>
-                  )
-                }
-                StepIconComponent={() => (
-                  <Avatar
-                    sx={{
-                      bgcolor:
-                        activeStep === index
-                          ? "primary.main"
-                          : completed[index]
-                          ? "success.main"
-                          : "grey.300",
-                      color: "white",
-                      width: 32,
-                      height: 32,
-                    }}
-                  >
-                    {step.icon}
-                  </Avatar>
-                )}
+        <Box
+          sx={{
+            background: COLORS.gradient.card,
+            borderRadius: BORDER_RADIUS.xl,
+            p: 3,
+            mb: 4,
+            border: `1px solid ${COLORS.secondary[200]}`,
+          }}
+        >
+          <Stepper
+            activeStep={activeStep}
+            sx={{
+              "& .MuiStepConnector-line": {
+                borderColor: COLORS.secondary[300],
+              },
+            }}
+          >
+            {steps.map((step, index) => (
+              <Step
+                key={step.label}
+                completed={completed[index]}
+                sx={{ cursor: "pointer" }}
+                onClick={() => handleStepClick(index)}
               >
-                {step.label}
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+                <StepLabel
+                  optional={
+                    step.optional && (
+                      <Typography
+                        variant="caption"
+                        color={COLORS.secondary[500]}
+                      >
+                        Optional
+                      </Typography>
+                    )
+                  }
+                  StepIconComponent={() => (
+                    <Avatar
+                      sx={{
+                        bgcolor:
+                          activeStep === index
+                            ? COLORS.primary[600]
+                            : completed[index]
+                            ? COLORS.success[600]
+                            : COLORS.secondary[300],
+                        color: "white",
+                        width: 36,
+                        height: 36,
+                        fontWeight: 600,
+                        boxShadow: SHADOWS.sm,
+                        border: `2px solid ${
+                          activeStep === index
+                            ? COLORS.primary[200]
+                            : completed[index]
+                            ? COLORS.success[200]
+                            : "transparent"
+                        }`,
+                      }}
+                    >
+                      {step.icon}
+                    </Avatar>
+                  )}
+                  sx={{
+                    "& .MuiStepLabel-label": {
+                      fontWeight: activeStep === index ? 600 : 500,
+                      color:
+                        activeStep === index
+                          ? COLORS.primary[700]
+                          : COLORS.secondary[600],
+                    },
+                  }}
+                >
+                  {step.label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
 
         {/* Step Content */}
         <Box sx={{ minHeight: "400px" }}>{renderStepContent(activeStep)}</Box>
       </DialogContent>
 
-      <DialogActions sx={{ px: 3, pb: 3, pt: 2 }}>
-        <Button onClick={handleClose} disabled={loading}>
+      <DialogActions
+        sx={{
+          px: 3,
+          pb: 3,
+          pt: 2,
+          background: COLORS.gradient.card,
+          borderTop: `1px solid ${COLORS.secondary[200]}`,
+        }}
+      >
+        <Button
+          onClick={handleClose}
+          disabled={loading}
+          size="large"
+          sx={{
+            color: COLORS.secondary[600],
+            "&:hover": {
+              backgroundColor: COLORS.secondary[100],
+            },
+          }}
+        >
           Cancel
         </Button>
 
@@ -964,6 +1139,16 @@ const CheckpointCreateModalEnhanced = ({
             onClick={handleBack}
             startIcon={<ArrowBack />}
             disabled={loading}
+            size="large"
+            variant="outlined"
+            sx={{
+              borderColor: COLORS.primary[300],
+              color: COLORS.primary[600],
+              "&:hover": {
+                borderColor: COLORS.primary[400],
+                backgroundColor: COLORS.primary[50],
+              },
+            }}
           >
             Back
           </Button>
@@ -974,6 +1159,19 @@ const CheckpointCreateModalEnhanced = ({
             onClick={handleNext}
             endIcon={<ArrowForward />}
             disabled={activeStep === 0 && !validateBasicInfo()}
+            size="large"
+            variant="contained"
+            sx={{
+              background: COLORS.gradient.primary,
+              "&:hover": {
+                background: COLORS.gradient.primaryHover,
+              },
+              "&:disabled": {
+                background: COLORS.secondary[300],
+                color: COLORS.secondary[500],
+              },
+              px: 3,
+            }}
           >
             Next
           </Button>
@@ -982,12 +1180,25 @@ const CheckpointCreateModalEnhanced = ({
             variant="contained"
             onClick={handleSubmit}
             disabled={loading}
-            startIcon={loading ? <CircularProgress size={16} /> : <Save />}
+            startIcon={
+              loading ? (
+                <CircularProgress size={16} color="inherit" />
+              ) : (
+                <Save />
+              )
+            }
+            size="large"
             sx={{
-              background: "linear-gradient(90deg, #2563eb 0%, #3b82f6 100%)",
+              background: COLORS.gradient.success,
               "&:hover": {
-                background: "linear-gradient(90deg, #1e40af 0%, #2563eb 100%)",
+                background: "linear-gradient(90deg, #047857 0%, #059669 100%)",
               },
+              "&:disabled": {
+                background: COLORS.secondary[300],
+                color: COLORS.secondary[500],
+              },
+              px: 4,
+              boxShadow: SHADOWS.md,
             }}
           >
             {loading ? "Creating..." : "Create Checkpoint"}
