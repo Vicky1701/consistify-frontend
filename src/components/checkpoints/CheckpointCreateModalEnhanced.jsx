@@ -843,9 +843,11 @@ const CheckpointCreateModalEnhanced = ({
             onChange={(value) => handleSolutionChange("code", value)}
             language={currentSolution.language?.toLowerCase()}
             placeholder={`Enter your ${currentSolution.language} solution here...`}
-            minHeight="350px"
-            maxHeight="500px"
+            minHeight="400px"
+            maxHeight="600px"
             showHeader={true}
+            fullWidth={true}
+            autoResize={true}
             title={`${currentSolution.language} Solution - ${
               currentSolution.title || "Untitled"
             }`}
@@ -989,12 +991,13 @@ const CheckpointCreateModalEnhanced = ({
     <Dialog
       open={open}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="xl"
       fullWidth
       PaperProps={{
         sx: {
-          minHeight: "80vh",
-          maxHeight: "90vh",
+          minHeight: "85vh",
+          maxHeight: "95vh",
+          width: "95vw",
         },
       }}
     >
@@ -1019,7 +1022,15 @@ const CheckpointCreateModalEnhanced = ({
         </IconButton>
       </DialogTitle>
 
-      <DialogContent sx={{ pt: 1 }}>
+      <DialogContent
+        sx={{
+          pt: 1,
+          display: "flex",
+          flexDirection: "column",
+          height: "70vh",
+          overflow: "hidden",
+        }}
+      >
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
@@ -1106,7 +1117,17 @@ const CheckpointCreateModalEnhanced = ({
         </Box>
 
         {/* Step Content */}
-        <Box sx={{ minHeight: "400px" }}>{renderStepContent(activeStep)}</Box>
+        <Box
+          sx={{
+            flex: 1,
+            overflow: "auto",
+            paddingBottom: 2,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {renderStepContent(activeStep)}
+        </Box>
       </DialogContent>
 
       <DialogActions

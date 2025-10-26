@@ -5,11 +5,7 @@ import {
   Typography,
   IconButton,
   Tooltip,
-  Select,
-  MenuItem,
-  FormControl,
   Chip,
-  Button,
   Stack,
 } from "@mui/material";
 import {
@@ -201,10 +197,15 @@ const SyntaxHighlighter = ({ code, language }) => {
         fontSize: "0.875rem",
         lineHeight: 1.6,
         overflow: "auto",
+        width: "100%",
+        minHeight: "300px",
       }}
     >
       {lines.map((line, index) => (
-        <Box key={index} sx={{ display: "flex", minHeight: "1.5rem" }}>
+        <Box
+          key={index}
+          sx={{ display: "flex", minHeight: "1.5rem", width: "100%" }}
+        >
           <Box
             sx={{
               color: "#94a3b8",
@@ -213,12 +214,18 @@ const SyntaxHighlighter = ({ code, language }) => {
               minWidth: "3rem",
               userSelect: "none",
               fontSize: "0.8rem",
+              flexShrink: 0,
             }}
           >
             {index + 1}
           </Box>
           <Box
-            sx={{ flex: 1, paddingLeft: "0.5rem" }}
+            sx={{
+              flex: 1,
+              paddingLeft: "0.5rem",
+              wordBreak: "break-all",
+              overflowWrap: "break-word",
+            }}
             dangerouslySetInnerHTML={{
               __html: highlightSyntax(line) || "&nbsp;",
             }}
@@ -237,11 +244,13 @@ const CodeEditor = ({
   readOnly = false,
   showLineNumbers = true,
   minHeight = "200px",
-  maxHeight = "400px",
+  maxHeight = "600px",
   showHeader = true,
   title,
   onRun,
   canRun = false,
+  fullWidth = true,
+  autoResize = true,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -271,6 +280,10 @@ const CodeEditor = ({
         borderRadius: BORDER_RADIUS.lg,
         overflow: "hidden",
         boxShadow: SHADOWS.sm,
+        width: fullWidth ? "100%" : "auto",
+        height: autoResize ? "auto" : "100%",
+        display: "flex",
+        flexDirection: "column",
         ...(isFullscreen && {
           position: "fixed",
           top: 0,
@@ -280,6 +293,7 @@ const CodeEditor = ({
           zIndex: 1300,
           borderRadius: 0,
           boxShadow: SHADOWS["2xl"],
+          height: "100vh",
         }),
       }}
     >
@@ -347,19 +361,36 @@ const CodeEditor = ({
 
       <Box
         sx={{
+          flex: 1,
           height: isFullscreen ? "calc(100vh - 60px)" : "auto",
           minHeight: isFullscreen ? "auto" : minHeight,
           maxHeight: isFullscreen ? "none" : maxHeight,
           overflow: "auto",
           backgroundColor: "#fafafa",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {showPreview ? (
-          <Box sx={{ padding: SPACING.md }}>
+          <Box
+            sx={{
+              padding: SPACING.md,
+              flex: 1,
+              overflow: "auto",
+              height: "100%",
+            }}
+          >
             <SyntaxHighlighter code={value} language={language} />
           </Box>
         ) : (
-          <Box sx={{ position: "relative", height: "100%" }}>
+          <Box
+            sx={{
+              position: "relative",
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {showLineNumbers && (
               <Box
                 sx={{
@@ -375,6 +406,7 @@ const CodeEditor = ({
                   padding: `${SPACING.sm} 0`,
                   userSelect: "none",
                   zIndex: 1,
+                  overflow: "hidden",
                 }}
               >
                 {value.split("\n").map((_, index) => (
@@ -400,10 +432,11 @@ const CodeEditor = ({
               placeholder={placeholder}
               style={{
                 width: "100%",
-                height: "100%",
+                flex: 1,
+                minHeight: isFullscreen ? "calc(100vh - 120px)" : "350px",
                 border: "none",
                 outline: "none",
-                resize: "none",
+                resize: isFullscreen ? "none" : "vertical",
                 fontFamily: 'Monaco, Consolas, "Courier New", monospace',
                 fontSize: "0.875rem",
                 lineHeight: 1.6,
@@ -411,6 +444,7 @@ const CodeEditor = ({
                 paddingLeft: showLineNumbers ? "5rem" : SPACING.md,
                 backgroundColor: "transparent",
                 color: COLORS.secondary[800],
+                boxSizing: "border-box",
               }}
             />
           </Box>
