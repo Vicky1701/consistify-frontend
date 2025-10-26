@@ -18,6 +18,37 @@ export const addCheckpoint = (pathId, data) =>
 export const getCheckpoints = (pathId) =>
   axios.get(`${BASE_URL}/paths/${pathId}/checkpoints`);
 
+// Enhanced Checkpoint CRUD operations
+export const createCheckpoint = (data) =>
+  axios.post(`${BASE_URL}/checkpoints`, data);
+export const getAllCheckpoints = (params = {}) =>
+  axios.get(`${BASE_URL}/checkpoints`, { params });
+export const getCheckpoint = (id) => axios.get(`${BASE_URL}/checkpoints/${id}`);
+export const updateCheckpoint = (id, data) =>
+  axios.put(`${BASE_URL}/checkpoints/${id}`, data);
+export const deleteCheckpoint = (id) =>
+  axios.delete(`${BASE_URL}/checkpoints/${id}`);
+
+// Code Solution operations
+export const addCodeSolution = (checkpointId, data) =>
+  axios.post(`${BASE_URL}/checkpoints/${checkpointId}/codes`, data);
+export const getCodeSolutions = (checkpointId) =>
+  axios.get(`${BASE_URL}/checkpoints/${checkpointId}/codes`);
+export const updateCodeSolution = (checkpointId, codeId, data) =>
+  axios.put(`${BASE_URL}/checkpoints/${checkpointId}/codes/${codeId}`, data);
+export const deleteCodeSolution = (checkpointId, codeId) =>
+  axios.delete(`${BASE_URL}/checkpoints/${checkpointId}/codes/${codeId}`);
+
+// Search and Filter operations
+export const searchCheckpoints = (query) =>
+  axios.get(`${BASE_URL}/checkpoints/search`, { params: { q: query } });
+export const getCheckpointsByTag = (tag) =>
+  axios.get(`${BASE_URL}/checkpoints`, { params: { tag } });
+export const getCheckpointsByDifficulty = (difficulty) =>
+  axios.get(`${BASE_URL}/checkpoints`, { params: { difficulty } });
+export const getCheckpointsByStatus = (status) =>
+  axios.get(`${BASE_URL}/checkpoints`, { params: { status } });
+
 // Auth operations (if needed later)
 export const login = (data) => axios.post(`${BASE_URL}/auth/login`, data);
 export const register = (data) => axios.post(`${BASE_URL}/auth/register`, data);

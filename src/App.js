@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import ConsistencyPathListPage from "./pages/ConsistencyPathListPage";
+import CheckpointsListPage from "./pages/CheckpointsListPage";
 //import ConsistencyPathsCreatePage from "./pages/ConsistencyPathsCreatePage";
 //import ConsistencyPathsViewPage from "./pages/ConsistencyPathsViewPage";
 import AuthPage from "./pages/AuthPage";
@@ -22,6 +23,7 @@ function App() {
           path="/consistency-paths"
           element={<ConsistencyPathListPage />}
         />
+        <Route path="/checkpoints" element={<CheckpointsListPage />} />
         {/* <Route
           path="/consistency-paths/create"
           element={<ConsistencyPathsCreatePage />}
