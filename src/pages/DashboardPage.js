@@ -1,11 +1,11 @@
-import React from 'react';
-import DashboardLayout from '../components/dashboard/DashboardLayout';
+import React from "react";
+import AppLayout from "../components/shared/AppLayout";
 
 const DashboardPage = () => {
   return (
-    <DashboardLayout>
+    <AppLayout title="Consistify Dashboard">
       {/* Dashboard is intentionally left empty. All Consistency Path features are in their own section. */}
-    </DashboardLayout>
+    </AppLayout>
   );
 };
 export default DashboardPage;
