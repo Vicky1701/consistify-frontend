@@ -20,7 +20,7 @@ import { Add, Search, FilterList, Code, Assignment } from "@mui/icons-material";
 import AppLayout from "../components/shared/AppLayout";
 import CheckpointListItem from "../components/checkpoints/CheckpointListItem.jsx";
 import CheckpointCreateModalEnhanced from "../components/checkpoints/CheckpointCreateModalEnhanced.jsx";
-import CheckpointEditModal from "../components/checkpoints/CheckpointEditModal.jsx";
+import CheckpointEditModalEnhanced from "../components/checkpoints/CheckpointEditModalEnhanced.jsx";
 import {
   getAllCheckpoints,
   updateCheckpoint,
@@ -394,7 +394,7 @@ const CheckpointsListPage = () => {
         />
 
         {/* Edit Checkpoint Modal */}
-        <CheckpointEditModal
+        <CheckpointEditModalEnhanced
           open={editModalOpen}
           onClose={() => {
             setEditModalOpen(false);
