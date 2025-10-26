@@ -20,7 +20,12 @@ import { Add, Search, FilterList, Code, Assignment } from "@mui/icons-material";
 import AppLayout from "../components/shared/AppLayout";
 import CheckpointListItem from "../components/checkpoints/CheckpointListItem.jsx";
 import CheckpointCreateModalEnhanced from "../components/checkpoints/CheckpointCreateModalEnhanced.jsx";
-import { getAllCheckpoints } from "../services/api";
+import CheckpointEditModal from "../components/checkpoints/CheckpointEditModal.jsx";
+import {
+  getAllCheckpoints,
+  updateCheckpoint,
+  deleteCheckpoint,
+} from "../services/api";
 import {
   DIFFICULTY_LEVELS,
   PROBLEM_STATUS,
@@ -34,6 +39,8 @@ const CheckpointsListPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedCheckpoint, setSelectedCheckpoint] = useState(null);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -123,16 +130,44 @@ const CheckpointsListPage = () => {
     setCreateModalOpen(false);
   };
 
-  const handleCheckpointDeleted = (deletedId) => {
-    setCheckpoints((prev) => prev.filter((cp) => cp.id !== deletedId));
+  const handleCheckpointDeleted = async (deletedId) => {
+    try {
+      await deleteCheckpoint(deletedId);
+      setCheckpoints((prev) => prev.filter((cp) => cp.id !== deletedId));
+    } catch (error) {
+      setError("Failed to delete checkpoint");
+      console.error("Error deleting checkpoint:", error);
+    }
   };
 
-  const handleCheckpointUpdated = (updatedCheckpoint) => {
+  const handleCheckpointUpdated = async (updatedCheckpoint) => {
+    try {
+      const response = await updateCheckpoint(
+        updatedCheckpoint.id,
+        updatedCheckpoint
+      );
+      setCheckpoints((prev) =>
+        prev.map((cp) => (cp.id === updatedCheckpoint.id ? response.data : cp))
+      );
+    } catch (error) {
+      setError("Failed to update checkpoint");
+      console.error("Error updating checkpoint:", error);
+    }
+  };
+
+  const handleCheckpointEdit = (checkpoint) => {
+    setSelectedCheckpoint(checkpoint);
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalUpdated = (updatedCheckpoint) => {
     setCheckpoints((prev) =>
       prev.map((cp) =>
         cp.id === updatedCheckpoint.id ? updatedCheckpoint : cp
       )
     );
+    setEditModalOpen(false);
+    setSelectedCheckpoint(null);
   };
 
   const clearFilters = () => {
@@ -326,6 +361,7 @@ const CheckpointsListPage = () => {
                   checkpoint={checkpoint}
                   onDelete={handleCheckpointDeleted}
                   onUpdate={handleCheckpointUpdated}
+                  onEdit={handleCheckpointEdit}
                 />
               </Grid>
             ))}
@@ -355,6 +391,17 @@ const CheckpointsListPage = () => {
           open={createModalOpen}
           onClose={() => setCreateModalOpen(false)}
           onCheckpointCreated={handleCheckpointCreated}
+        />
+
+        {/* Edit Checkpoint Modal */}
+        <CheckpointEditModal
+          open={editModalOpen}
+          onClose={() => {
+            setEditModalOpen(false);
+            setSelectedCheckpoint(null);
+          }}
+          checkpoint={selectedCheckpoint}
+          onCheckpointUpdated={handleEditModalUpdated}
         />
       </Box>
     </AppLayout>
